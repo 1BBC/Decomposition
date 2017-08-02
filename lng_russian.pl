@@ -1,35 +1,35 @@
 $lang{DECOMPOSITON} = 'Декомпозиция задачи';
-$lang{decomposition} = 'Декомпозиция';
-$lang{addnewitems} = 'Добавить новый элемент';
+$lang{ITDECOMPOSITION} = 'Декомпозиция';
+$lang{ADDNEWITEMS} = 'Добавить новый элемент';
 
 
-$lang{Addelement} = 'Добавление';
-$lang{Youaddelement} = 'Вы успешно добавили элемент';
+$lang{ADDELEMENT} = 'Добавление';
+$lang{YOUADDELEMENT} = 'Вы успешно добавили элемент';
 
-$lang{Deleteelement} = 'Удаление';
-$lang{Youdeleteelement} = 'Декомпозиция';
+$lang{DELETEELEMENT} = 'Удаление';
+$lang{YOUDELETEELEMENT} = 'Декомпозиция';
 
 
-$lang{Name} = 'Название';
-$lang{Difficult} = 'Сложность';
+$lang{NAME} = 'Название';
+$lang{DIFFICULT} = 'Сложность';
 
 $lang{INFO} = 'ИНФО';
-$lang{Terribly} = 'Плохо';
-$lang{Good} = 'Отлично';
-$lang{WellDone} = 'Велеколепно';
+$lang{TERRIBLY} = 'Плохо';
+$lang{GOOD} = 'Отлично';
+$lang{WELLDONE} = 'Велеколепно';
 
-$lang{YourfinalscorewillbedisplayedhereFibonaccinumber} = 'Ваша оценка будет отображатся в этом окне. Сложность Фиббаначи: ';
-$lang{Yourfinalscore} = 'Ваш результат: ';
-
-
-$lang{Task} = 'Задание';
-$lang{Text} = 'Ваш текст';
-$lang{Easy} = 'легко';
-$lang{Medium} = 'терпимо';
-$lang{Hard} = 'трудно';
-$lang{Add} = 'Добавить';
+$lang{FIBONACCINUMBER} = 'Ваша оценка будет отображатся в этом окне. Сложность Фиббаначи: ';
+$lang{YOURFINALSCORE} = 'Ваш результат: ';
 
 
-$lang{Decomposition} = 'Декомпозиция';
-$lang{Result} = 'Результат';
+$lang{TASK} = 'Задание';
+$lang{TEXT} = 'Ваш текст';
+$lang{EASY} = 'легко';
+$lang{MEDIUM} = 'терпимо';
+$lang{HARD} = 'трудно';
+$lang{ADD} = 'Добавить';
+
+
+$lang{DECOMPOSITION} = 'Декомпозиция';
+$lang{RESULT} = 'Результат';
 

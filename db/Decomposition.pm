@@ -53,7 +53,7 @@ sub del{
   my $self = shift;
   my ($id) = @_;
 
-  $self->query_del( 'DECOMPOSITION', { ID => $id } );
+  $self->query_del( 'decomposition', { ID => $id } );
 
   return $self->{result};
 }
@@ -80,7 +80,7 @@ sub list{
   # );
 
   $self->query2( "SELECT id, name, difficult
-     FROM DECOMPOSITION;",
+     FROM decomposition;",
     undef,
     {COLS_NAME => 1}
   );

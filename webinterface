@@ -1,115 +1,144 @@
-our ($html, %FORM, $db, %conf, $admin);
+#!perl
+
+=head1 NAME
+
+  Decomposition
+
+=cut
+
+our ($html, 
+  %FORM, 
+  $db, 
+  %conf, 
+  $admin);
+
 use Decomposition::db::Decomposition;
+my $Decomposition = Decomposition->new($db, $admin, \%conf);
+
 use Data::Dumper;
 
 
-my $Decomposition = Decomposition->new($db, $admin, \%conf);
+#**********************************************************
+=head2 cams_main() - add and delete tasks
 
-
+=cut
+#**********************************************************
 sub add {
 
-  if( $FORM{"textadd"} )
-  {
-   $Decomposition->add({
-    NAME => $FORM{textadd}, 
-    DIFFICULT => $FORM{inlineRadioOptions},
-    });
+  if ($FORM{"textadd"}) {
+    $Decomposition->add(
+      {
+        NAME      => $FORM{textadd},
+        DIFFICULT => $FORM{inlineRadioOptions},
+      }
+    );
 
-    $html->message("info", "$lang{Addelement}", "$lang{Youaddelement}");
+    $html->message("info", "$lang{ADDELEMENT}", "$lang{YOUADDELEMENT}");
   }
-  elsif( $FORM{delete}){
+  elsif ($FORM{delete}) {
     $Decomposition->del($FORM{delete});
 
-    $html->message("info", "$lang{Deleteelement}", "$lang{Youdeleteelement}");
+    $html->message("info", "$lang{DELETEELEMENT}", "$lang{YOUDELETEELEMENT}");
   }
- 
+
   $html->tpl_show(_include("add_form", "Decomposition"));
- 
+
   # use Abills::Base;
   # _bp("1", $Decomposition_list,);
 
-    my $table = $html->table(
-  {
-    width      => "100%",
-    caption    => "DECOMPOSITON",
-    title      => [ "id", "$lang{Name}", "$lang{Difficult}", "$lang{Deleteelement}"],
-    qs         => $pages_qs,
-    ID         => "TABLE_ID",
-    export     => 1
-  }
+  my $table = $html->table(
+    {
+      width   => "100%",
+      caption => "DECOMPOSITON",
+      title   => [ "id", "$lang{NAME}", "$lang{DIFFICULT}", "$lang{DELETEELEMENT}" ],
+      qs      => $pages_qs,
+      ID      => "TABLE_ID",
+      export  => 1
+    }
   );
 
-  my $Decomposition_list = $Decomposition->list({COLS_NAME=>1});
+  my $Decomposition_list = $Decomposition->list({ COLS_NAME => 1 });
 
-  foreach my $item (@$Decomposition_list)
-   {     
+  foreach my $item (@$Decomposition_list) {
     my $del_button = $html->button("", "index=$index&delete=$item->{id}", { class => "btn btn-default", ADD_ICON => "glyphicon glyphicon-remove" });
-    $table->addrow($item->{id}, $item->{name}, $item->{difficult}, $del_button);     
-   }
+    $table->addrow($item->{id}, $item->{name}, $item->{difficult}, $del_button);
+  }
 
   print $table->show();
 
+  return 1;
 
 }
 
-
+#**********************************************************
+=head2 decomposition() - Considers the difficulty level of the selected tasks
+=cut
+#**********************************************************
 sub decomposition {
 
-  my $Decomposition_list = $Decomposition->list({COLS_NAME=>1});
+  my $Decomposition_list = $Decomposition->list({ COLS_NAME => 1 });
   my $checkboxes;
   my $totalcount;
   my $fibonacci_count = 0;
-  foreach my $item (@$Decomposition_list){
-    $checkboxes .= $html->tpl_show(_include("decomposition_chekbox", "Decomposition"), {NAME => $item->{name}, ID => $item->{id}, CLASS => $item->{difficult} }, {OUTPUT2RETURN => 1});
+  foreach my $item (@$Decomposition_list) {
+    $checkboxes .= $html->tpl_show(_include("decomposition_chekbox", "Decomposition"), { NAME => $item->{name}, ID => $item->{id}, CLASS => $item->{difficult} }, { OUTPUT2RETURN => 1 });
     $totalcount += $item->{difficult};
     $fibonacci_count++;
   }
 
-
   my @SwitchOptionCheck = split ", ", $FORM{"SwitchOption"} // "";
   my $balcount;
-  for(@SwitchOptionCheck) {
+  for (@SwitchOptionCheck) {
     $balcount += $_;
-  };
-  
-
-  my $percentbal = int(($balcount * 100)/$totalcount);
-  sub fibonacci
-  {
-    my ($n) = @_;
-    if ($n < 3) {
-        return 1;
-      }
-      else {
-        return fibonacci($n-1) + fibonacci($n-2);
-      }
   }
+
+  my $percentbal = int(($balcount * 100) / $totalcount);
+
   my $fibonacci = fibonacci($fibonacci_count);
 
-  if($percentbal == 0){
-    $html->message("info", "$lang{INFO}", "$lang{YourfinalscorewillbedisplayedhereFibonaccinumber} <strong>$fibonacci</strong>");
-  }elsif( $percentbal < 40){
-    $html->message("err", "$lang{Terribly}", "$lang{Yourfinalscore}<strong>$percentbal</strong>%");
-  }elsif($percentbal < 80){
-    $html->message("warn", "$lang{Good}", "$lang{Yourfinalscore}<strong>$percentbal</strong>%");
-  }elsif($percentbal >= 80){
-    $html->message("info", "$lang{WellDone}", "$lang{Yourfinalscore}<strong>$percentbal</strong>%");
-  }   
+  if ($percentbal == 0) {
+    $html->message("info", "$lang{INFO}", "$lang{FIBONACCINUMBER} <strong>$fibonacci</strong>");
+  }
+  elsif ($percentbal < 40) {
+    $html->message("err", "$lang{Terribly}", "$lang{YOURFINALSCORE}<strong>$percentbal</strong>%");
+  }
+  elsif ($percentbal < 80) {
+    $html->message("warn", "$lang{Good}", "$lang{YOURFINALSCORE}<strong>$percentbal</strong>%");
+  }
+  elsif ($percentbal >= 80) {
+    $html->message("info", "$lang{WellDone}", "$lang{YOURFINALSCORE}<strong>$percentbal</strong>%");
+  }
 
+  $html->tpl_show(_include("decomposition_form", "Decomposition"), { CHECKBOXES => $checkboxes, RESULT => $result });
 
-  $html->tpl_show(_include("decomposition_form", "Decomposition"), {CHECKBOXES => $checkboxes, RESULT => $result});
-
-
-
+  return 1;
 }
 
+#**********************************************************
+=head2 fibonacci($attr)
+ 
+  Arguments:
+    $attr   - Extra attributes
+ 
+  Returns:
+   TRUE or FALSE
+ 
+  Example:
+ 
+    fibonacci({ ATTR => 13 });
+ 
+=cut
+#**********************************************************
+sub fibonacci {
+  my ($n) = @_;
+  if ($n < 3) {
+    return 1;
+  }
+  else {
+    return fibonacci($n - 1) + fibonacci($n - 2);
+  }
+}
+
+1
+
 # print $html->tpl_show(_include("fotm", "Decomposition"), {ADD => $add, DECOMPOSITON => $decompostion});
-
-
-
-
-
-
-
-
-
