@@ -1,21 +1,18 @@
-      %RESULT%
-      <form method='GET' action='$SELF_URL'>
-      <input type='hidden' name='index' value='$index'>
-        <div class='col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4'>
-            <div class='panel panel-primary'>
-                <!-- Default panel contents -->
-                <div class='panel-heading'>$lang{ITDECOMPOSITION}</div>
-            
-                <!-- List group -->
-                <ul class='list-group'>
-                %CHECKBOXES%
-                </ul>
-            </div> 
+%RESULT%
+<div class='box box-theme box-form'>
+  <div class='box-header with-border'><h4 class='box-title'>Декомпозиция</h4></div>
+  <div class='box-body'>
+        <form name='DECOMPOSTION' id='form_DECOMPOSTION' method='post' class='form form-horizontal'>
+        <input type='hidden' name='index' value='$index' />
+        <input type='hidden' name='%SUBMIT_BTN_ACTION%' value='1' />
 
-            
-            <!-- Standard button -->
-            <button type='submit' class='btn btn-primary btn-md btn-block'>$lang{RESULT}</button>
+        %CHECKBOXES%
+    </form>
 
+  </div>
+  <div class='box-footer text-center'>
+      <input type='submit' form='form_DECOMPOSTION' class='btn btn-primary' name='submit' value='Результат'>
+  </div>
+</div>
 
-        </form>
 
